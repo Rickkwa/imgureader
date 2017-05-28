@@ -16,7 +16,6 @@ import { AppComponent } from './app.component';
         HttpModule
     ],
     providers: [
-        ApiService
     ],
     bootstrap: [AppComponent]
 })
