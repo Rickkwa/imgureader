@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
+import { NgModule } from '@angular/core';
 
 import { ApiService } from './api.service';
+import { Chapter } from './chapter';
+import { Page } from './page';
 
 @Component({
     selector: 'app-root',
@@ -10,10 +13,18 @@ import { ApiService } from './api.service';
 })
 export class AppComponent {
     title = 'imgureader';
-    jsonResult: string;
+    albumSearch: string;
+    currentChapter: Chapter;
+    currentPage: Page;
 
-    constructor(apiService: ApiService) {
-        apiService.callApi('ojwXr').then(response => { this.jsonResult = response.title; console.log(response.pages); });
+    constructor(private apiService: ApiService) { }
+
+    albumSearchOnChange() {
+        // albumSearch = 'ojwXr'
+
+        this.apiService.callApi(this.albumSearch).then(chapter => {
+            this.currentChapter = chapter;
+            this.currentPage = chapter.getPage(0);
+        });
     }
 }
-

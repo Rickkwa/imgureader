@@ -18,7 +18,17 @@ export class Chapter {
         this.pages = [];
     }
 
+    getTitle() {
+        return this.title;
+    }
+
     addPage(newPage: Page): void {
         this.pages.push(newPage);
+    }
+
+    getPage(index: number) {
+        if (index < 0 || index >= this.imagesCount)
+            return null;
+        return this.pages[index];
     }
 }

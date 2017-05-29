@@ -12,4 +12,8 @@ export class Page {
         this.width = width;
         this.height = height;
     }
+
+    getLink() {
+        return this.link;
+    }
 }

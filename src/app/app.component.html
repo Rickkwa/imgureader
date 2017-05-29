@@ -2,9 +2,11 @@
         {{title}}
 </header>
 <section>
-    <code>
-        {{ jsonResult }}
-    </code>
+    <input type="text" [(ngModel)]="albumSearch" (change)="albumSearchOnChange()" />
+    <h3 *ngIf="currentChapter">{{ currentChapter.getTitle() }}</h3>
+    <div>
+        <img *ngIf="currentPage" src="{{ currentPage.getLink() }}" />
+    </div>
 </section>
 
 
