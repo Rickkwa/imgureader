@@ -16,15 +16,33 @@ export class AppComponent {
     albumSearch: string;
     currentChapter: Chapter;
     currentPage: Page;
+    currentPageIndex: number;
 
     constructor(private apiService: ApiService) { }
 
     albumSearchOnChange() {
-        // albumSearch = 'ojwXr'
-
         this.apiService.loadChapter(this.albumSearch).then(chapter => {
+            this.currentPageIndex = 0;
             this.currentChapter = chapter;
-            this.currentPage = chapter.getPage(0);
+            this.currentPage = chapter.getPage(this.currentPageIndex);
         });
+    }
+
+    nextPage(): void {
+        // TODO: handle the case if currentPageIndex is out of range then don't do anything
+        this.currentPageIndex += 1;
+        this.currentPage = this.currentChapter.getPage(this.currentPageIndex);
+    }
+
+    prevPage(): void {
+        // TODO: handle the case if currentPageIndex is out of range then don't do anything
+        this.currentPageIndex -= 1;
+        this.currentPage = this.currentChapter.getPage(this.currentPageIndex);
+    }
+
+    gotoPage(index: number): void {
+        // TODO: handle the case if currentPageIndex is out of range then don't do anything
+        this.currentPageIndex = index;
+        this.currentPage = this.currentChapter.getPage(this.currentPageIndex);
     }
 }

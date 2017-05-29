@@ -1,10 +1,13 @@
 <header>
-        {{title}}
+    {{title}}
 </header>
 <section>
+    test with ojwXr
     <input type="text" [(ngModel)]="albumSearch" (change)="albumSearchOnChange()" />
+    <button (click)="prevPage()">Previous</button><button (click)="nextPage()">Next</button>
+
     <h3 *ngIf="currentChapter">{{ currentChapter.getTitle() }}</h3>
-    <div>
+    <div class="image-container">
         <img *ngIf="currentPage" src="{{ currentPage.getLink() }}" />
     </div>
 </section>
