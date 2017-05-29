@@ -22,7 +22,7 @@ export class AppComponent {
     albumSearchOnChange() {
         // albumSearch = 'ojwXr'
 
-        this.apiService.callApi(this.albumSearch).then(chapter => {
+        this.apiService.loadChapter(this.albumSearch).then(chapter => {
             this.currentChapter = chapter;
             this.currentPage = chapter.getPage(0);
         });

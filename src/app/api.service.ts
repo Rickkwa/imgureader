@@ -23,14 +23,18 @@ export class ApiService {
 
         return this.http.get(this.baseUrl + hash, { headers: headers })
             .toPromise()
-            .then(response => this.parseChapter(response.json().data));
+            .then(response => this.parseChapter(response.json().data))
+            .catch(this.handleHttpError);
     }
-    // TODO: error handler
+    
+    handleHttpError(error: any): Promise<any> {
+        console.error("Error calling imgur api");
+        return Promise.reject(error.message || error);
+    }
 
-    loadChapter(value: string): Chapter {
+    loadChapter(value: string): Promise<Chapter> {
         let hash: string = this.getHash(value);
-
-        return null;
+        return this.callApi(hash);
     }
 
     getHash(s: string): string {
