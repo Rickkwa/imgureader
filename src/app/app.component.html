@@ -3,12 +3,13 @@
 </header>
 <section>
     test with ojwXr
-    <input type="text" [(ngModel)]="albumSearch" (change)="albumSearchOnChange()" />
+    <label>Imgur Album: <input type="text" [(ngModel)]="albumSearch" (change)="albumSearchUpdate()" (keyup.enter)="albumSearchUpdate()" /></label>
+    <!-- Imgur Album: <input type="text" [(ngModel)]="albumSearch" (change)="albumSearchUpdate()" /> -->
     <button (click)="prevPage()">Previous</button><button (click)="nextPage()">Next</button>
 
     <h3 *ngIf="currentChapter">{{ currentChapter.getTitle() }}</h3>
     <div class="image-container">
-        <img *ngIf="currentPage" src="{{ currentPage.getLink() }}" />
+        <img *ngIf="currentPage" src="{{ currentPage.getLink() }}" (click)="nextPage()" />
     </div>
 </section>
 

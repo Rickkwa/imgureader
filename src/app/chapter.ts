@@ -26,6 +26,10 @@ export class Chapter {
         this.pages.push(newPage);
     }
 
+    getNumPages() {
+        return this.pages.length;
+    }
+
     getPage(index: number) {
         if (index < 0 || index >= this.imagesCount)
             return null;
