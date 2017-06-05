@@ -8,7 +8,7 @@
     <button (click)="prevPage()">Previous</button><button (click)="nextPage()">Next</button>
 
     <h3 *ngIf="currentChapter">{{ currentChapter.getTitle() }}</h3>
-    <select id="page-selector" *ngIf="currentChapter" (change)="gotoPage($event.target.value)">
+    <select id="page-selector" *ngIf="currentChapter" (change)="gotoPage($event.target.value)" [(ngModel)]="currentPageIndex">
         <option *ngFor="let i of currentChapter.getNumPages() | range" value="{{ i }}">
             {{ i + 1 }}
         </option>

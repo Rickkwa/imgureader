@@ -45,7 +45,8 @@ export class AppComponent {
         this.scrollReset();
     }
 
-    gotoPage(index: number): void {
+    gotoPage(index: string | number): void {
+        index = parseInt(index + "");
         if (index < 0 || index >= this.currentChapter.getNumPages())
             return;
         this.currentPageIndex = index;
