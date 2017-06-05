@@ -5,10 +5,12 @@ import { HttpModule } from '@angular/http';
 import { ApiService } from './api.service';
 
 import { AppComponent } from './app.component';
+import { RangePipe } from './range.pipe';
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        RangePipe
     ],
     imports: [
         BrowserModule,
