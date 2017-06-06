@@ -31,6 +31,7 @@ export class AppComponent {
 
     nextPage(): void {
         if (this.currentPageIndex + 1 >= this.currentChapter.getNumPages())
+            // TODO: Some user feedback that this is the last page
             return;
         this.currentPageIndex += 1;
         this.currentPage = this.currentChapter.getPage(this.currentPageIndex);
@@ -39,6 +40,7 @@ export class AppComponent {
 
     prevPage(): void {
         if (this.currentPageIndex - 1 < 0)
+            // TODO: Some user feedback that this is the first page
             return;
         this.currentPageIndex -= 1;
         this.currentPage = this.currentChapter.getPage(this.currentPageIndex);
@@ -56,7 +58,10 @@ export class AppComponent {
 
     scrollReset(): void {
         // TODO: animate this scroll
-        document.getElementsByClassName("image-container")[0].scrollIntoView();
+        // document.getElementsByClassName("image-container")[0].scrollIntoView();
+
+        // this.scrollToTopElement(document.getElementsByClassName("image-container")[0], 300);
+        this.scrollToTop(document.getElementsByClassName("image-container")[0], 300);
     }
 
     keyDownHandler(e: KeyboardEvent): void {
@@ -68,5 +73,59 @@ export class AppComponent {
             this.prevPage();
         else if (e.keyCode == 39 || e.keyCode == 68) // right arrow (39) or D (68)
             this.nextPage();
+        else if (e.keyCode == 83) // S (83)
+            window.scrollBy(0, 40);
+        else if (e.keyCode == 87) // W (87)
+            window.scrollBy(0, -40);
+    }
+
+    // https://stackoverflow.com/a/24559613/2079781
+    // scrollToTopElement(el, scrollDuration) {
+    //     var cosParameter = window.scrollY / 2,
+    //         scrollCount = 0,
+    //         oldTimestamp = performance.now();
+    //     function step(newTimestamp) {
+    //         scrollCount += Math.PI / (scrollDuration / (newTimestamp - oldTimestamp));
+    //         let exit = scrollCount >= Math.PI || window.scrollY - el.offsetTop <= 0;
+    //         if (exit) {
+    //             window.scrollTo(0, el.offsetTop);
+    //             return;
+    //         }
+    //         window.scrollTo(0, Math.round(cosParameter + cosParameter * Math.cos(scrollCount)));
+    //         oldTimestamp = newTimestamp;
+    //         window.requestAnimationFrame(step);
+    //     }
+    //     window.requestAnimationFrame(step);
+    // }
+
+    // scrollToTop(el, scrollDuration) {
+    //     var scrollStep = -(window.scrollY - el.offsetTop) / (scrollDuration / 10),
+    //     scrollInterval = setInterval(() => {
+    //         if ( window.scrollY > el.offsetTop ) {
+    //             window.scrollBy(0, scrollStep);
+    //         }
+    //         else {
+    //             console.log(window.scrollY, el.offsetTop);
+    //             clearInterval(scrollInterval); 
+    //         }
+    //     }, 20);
+    // }
+
+    scrollToTop(el, scrollDuration) {
+        let distToGo; 
+        let direction = window.scrollY > el.offsetTop ? -1 : 1; // negative means scroll up, positive means scroll down
+        let intervalLength = 20;
+
+        let stepsLeft = scrollDuration / intervalLength;
+        let scrollInterval = setInterval(() => {
+            distToGo = Math.abs(window.scrollY - el.offsetTop);
+            if (distToGo <= 0) {
+                clearInterval(scrollInterval);
+                return;
+            }
+            let step = Math.min(distToGo, distToGo / stepsLeft);
+            window.scrollBy(0, direction * step);
+            stepsLeft -= 1;
+        }, intervalLength);
     }
 }
