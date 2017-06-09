@@ -57,11 +57,7 @@ export class AppComponent {
     }
 
     scrollReset(): void {
-        // TODO: animate this scroll
-        // document.getElementsByClassName("image-container")[0].scrollIntoView();
-
-        // this.scrollToTopElement(document.getElementsByClassName("image-container")[0], 300);
-        this.scrollToTop(document.getElementsByClassName("image-container")[0], 300);
+        this.scrollToTarget((<HTMLElement> document.getElementsByClassName("image-container")[0]).offsetTop, 150);
     }
 
     keyDownHandler(e: KeyboardEvent): void {
@@ -79,46 +75,14 @@ export class AppComponent {
             window.scrollBy(0, -40);
     }
 
-    // https://stackoverflow.com/a/24559613/2079781
-    // scrollToTopElement(el, scrollDuration) {
-    //     var cosParameter = window.scrollY / 2,
-    //         scrollCount = 0,
-    //         oldTimestamp = performance.now();
-    //     function step(newTimestamp) {
-    //         scrollCount += Math.PI / (scrollDuration / (newTimestamp - oldTimestamp));
-    //         let exit = scrollCount >= Math.PI || window.scrollY - el.offsetTop <= 0;
-    //         if (exit) {
-    //             window.scrollTo(0, el.offsetTop);
-    //             return;
-    //         }
-    //         window.scrollTo(0, Math.round(cosParameter + cosParameter * Math.cos(scrollCount)));
-    //         oldTimestamp = newTimestamp;
-    //         window.requestAnimationFrame(step);
-    //     }
-    //     window.requestAnimationFrame(step);
-    // }
-
-    // scrollToTop(el, scrollDuration) {
-    //     var scrollStep = -(window.scrollY - el.offsetTop) / (scrollDuration / 10),
-    //     scrollInterval = setInterval(() => {
-    //         if ( window.scrollY > el.offsetTop ) {
-    //             window.scrollBy(0, scrollStep);
-    //         }
-    //         else {
-    //             console.log(window.scrollY, el.offsetTop);
-    //             clearInterval(scrollInterval); 
-    //         }
-    //     }, 20);
-    // }
-
-    scrollToTop(el, scrollDuration) {
+    scrollToTarget(targetY: number, scrollDuration: number): void {
         let distToGo; 
-        let direction = window.scrollY > el.offsetTop ? -1 : 1; // negative means scroll up, positive means scroll down
+        let direction = window.scrollY > targetY ? -1 : 1; // negative means scroll up, positive means scroll down
         let intervalLength = 20;
 
         let stepsLeft = scrollDuration / intervalLength;
         let scrollInterval = setInterval(() => {
-            distToGo = Math.abs(window.scrollY - el.offsetTop);
+            distToGo = Math.abs(window.scrollY - targetY);
             if (distToGo <= 0) {
                 clearInterval(scrollInterval);
                 return;
