@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgModule } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { ApiService } from './api.service';
 import { Chapter } from './chapter';
@@ -11,13 +12,31 @@ import { Page } from './page';
     styleUrls: ['./reader.component.css'],
     host: { "(window:keydown)": "keyDownHandler($event)" }
 })
-export class ReaderComponent {
+export class ReaderComponent implements OnInit {
     albumSearch: string;
     currentChapter: Chapter;
     currentPage: Page;
     currentPageIndex: number;
 
-    constructor(private apiService: ApiService) { }
+    constructor(
+        private apiService: ApiService, 
+        private route: ActivatedRoute, 
+        private router: Router
+    ) { }
+
+    ngOnInit() {
+        // console.log("albumhash", this.route.snapshot.params['albumhash']);
+        // console.log("page", this.route.snapshot.params['pagenum']);
+
+        this.route.params.subscribe((params) => {
+            this.onUrlChange(params["albumhash"], +params["pagenum"]);
+        });
+        // this.router.navigate(["reader", "ojwXr", "page", 20]);
+    }
+
+    onUrlChange(albumHash: string, pageNum: number) {
+        console.log(albumHash, pageNum);
+    }
 
     albumSearchUpdate() {
         this.apiService.loadChapter(this.albumSearch.trim()).then(chapter => {

@@ -10,7 +10,9 @@ const appRoutes: Routes = [
     // { path: 'heroes',        component: HeroListComponent },
     // { path: '',   redirectTo: '/heroes', pathMatch: 'full' },
     // { path: '**', component: PageNotFoundComponent }
-    { path: '', component: ReaderComponent }
+    { path: '', component: ReaderComponent },
+    { path: 'reader/:albumhash/page/:pagenum', component: ReaderComponent },
+    { path: 'reader/:albumhash', redirectTo: 'reader/:albumhash/page/1', pathMatch: 'full' }
 ];
 @NgModule({
     imports: [
