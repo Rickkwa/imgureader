@@ -1,0 +1,7 @@
+.image-container {
+    text-align: center;
+}
+
+.image-container img {
+    cursor: pointer;
+}

@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 import { ApiService } from './api.service';
 
 import { AppRoutingModule } from './app-routing.module';
+import { ReaderComponent } from './reader.component';
 import { AppComponent } from './app.component';
 import { RangePipe } from './range.pipe';
 
@@ -12,6 +13,7 @@ import { RangePipe } from './range.pipe';
 @NgModule({
     declarations: [
         AppComponent,
+        ReaderComponent,
         RangePipe
     ],
     imports: [

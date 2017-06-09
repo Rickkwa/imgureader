@@ -6,11 +6,3 @@ header {
     line-height: 50px;
     font-size: 32px;
 }
-
-.image-container {
-    text-align: center;
-}
-
-.image-container img {
-    cursor: pointer;
-}

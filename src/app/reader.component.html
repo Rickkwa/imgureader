@@ -1,0 +1,14 @@
+test with ojwXr
+<label>Imgur Album: <input type="text" [(ngModel)]="albumSearch" (change)="albumSearchUpdate()" (keyup.enter)="albumSearchUpdate()" /></label>
+<!-- Imgur Album: <input type="text" [(ngModel)]="albumSearch" (change)="albumSearchUpdate()" /> -->
+<button (click)="prevPage()">Previous</button><button (click)="nextPage()">Next</button>
+
+<h3 *ngIf="currentChapter">{{ currentChapter.getTitle() }}</h3>
+<select id="page-selector" *ngIf="currentChapter" (change)="gotoPage($event.target.value)" [(ngModel)]="currentPageIndex">
+    <option *ngFor="let i of currentChapter.getNumPages() | range" value="{{ i }}">
+        {{ i + 1 }}
+    </option>
+</select>
+<div class="image-container">
+    <img *ngIf="currentPage" src="{{ currentPage.getLink() }}" (click)="nextPage()" />
+</div>
