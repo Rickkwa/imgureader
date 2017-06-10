@@ -17,6 +17,7 @@ export class ReaderComponent implements OnInit {
     currentChapter: Chapter;
     currentPage: Page;
     currentPageIndex: number;
+    pageImages: HTMLImageElement[];
 
     constructor(
         private apiService: ApiService, 
@@ -35,14 +36,16 @@ export class ReaderComponent implements OnInit {
     }
 
     onUrlChange(albumHash: string, pageNum: number) {
-        console.log(albumHash, pageNum);
+        // console.log(albumHash, pageNum);
     }
 
     albumSearchUpdate() {
         this.apiService.loadChapter(this.albumSearch.trim()).then(chapter => {
+            // TODO: clear all DOM elements in .preload-images
             this.currentPageIndex = 0;
             this.currentChapter = chapter;
-            this.currentPage = chapter.getPage(this.currentPageIndex);
+            this.pageImages = new Array<HTMLImageElement>();
+            this.gotoPage(0);
         });
     }
 
@@ -50,9 +53,9 @@ export class ReaderComponent implements OnInit {
         if (this.currentPageIndex + 1 >= this.currentChapter.getNumPages())
             // TODO: Some user feedback that this is the last page
             return;
+
         this.currentPageIndex += 1;
-        this.currentPage = this.currentChapter.getPage(this.currentPageIndex);
-        this.scrollReset();
+        this.gotoPage(this.currentPageIndex);
     }
 
     prevPage(): void {
@@ -60,8 +63,13 @@ export class ReaderComponent implements OnInit {
             // TODO: Some user feedback that this is the first page
             return;
         this.currentPageIndex -= 1;
-        this.currentPage = this.currentChapter.getPage(this.currentPageIndex);
-        this.scrollReset();
+        this.gotoPage(this.currentPageIndex);
+    }
+
+    getImage(src: string): HTMLImageElement {
+        let result = new Image();
+        result.src = src;
+        return result;
     }
 
     gotoPage(index: string | number): void {
@@ -70,11 +78,19 @@ export class ReaderComponent implements OnInit {
             return;
         this.currentPageIndex = index;
         this.currentPage = this.currentChapter.getPage(this.currentPageIndex);
+
+        // Preload images for neighboring pages
+        this.pageImages[index] = this.getImage(this.currentPage.getLink());
+        if (index - 1 >= 0)
+            this.pageImages[index - 1] = this.getImage(this.currentChapter.getPage(index - 1).getLink());
+        if (index + 1 < this.currentChapter.getNumPages())
+            this.pageImages[index + 1] = this.getImage(this.currentChapter.getPage(index + 1).getLink());
+
         this.scrollReset();
     }
 
     scrollReset(): void {
-        this.scrollToTarget((<HTMLElement> document.getElementsByClassName("image-container")[0]).offsetTop, 150);
+        this.scrollToTarget((<HTMLElement> document.getElementsByClassName("reader-container")[0]).offsetTop, 150);
     }
 
     keyDownHandler(e: KeyboardEvent): void {
