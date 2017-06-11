@@ -13,14 +13,12 @@ import { Page } from './page';
     host: { "(window:keydown)": "keyDownHandler($event)" }
 })
 export class ReaderComponent implements OnInit {
-    albumSearch: string;
+    albumSearch: string = "";
+    albumHash: string = "";
     currentChapter: Chapter;
     currentPage: Page;
     currentPageIndex: number;
     pageImages: HTMLImageElement[];
-
-    albumHash: string;
-    pageIndex: number;
 
     constructor(
         private apiService: ApiService,
@@ -39,25 +37,28 @@ export class ReaderComponent implements OnInit {
         // TODO: verify hash works?
         // TODO/TOFIX: When gotoPage runs, it sets the current page and changes URL. Since URL changes, this function gets called
         //             and it ends up calling gotoPage again. But since it goes to the same page, it won't run infinitely... but it
-        //             still ends up running twice which is redundant.\
+        //             still ends up running twice which is redundant.
 
         let newChapter: boolean = this.albumHash != albumHash;
         this.albumHash = albumHash;
-        this.pageIndex = pageNum - 1;
 
         if (!this.currentChapter || newChapter) {
             this.apiService.loadChapter(this.albumHash.trim()).then(chapter => {
                 this.currentChapter = chapter;
                 this.pageImages = new Array<HTMLImageElement>();
-                this.gotoPage(this.pageIndex);
+                this.gotoPage(pageNum - 1);
             });
         }
         else {
-            this.gotoPage(this.pageIndex);
+            this.gotoPage(pageNum - 1);
         }
     }
 
     albumSearchUpdate() {
+        if (this.albumSearch.trim() == "") {
+            this.router.navigate(['/']);
+            return;
+        }
         let hash: string = this.apiService.getHash(this.albumSearch.trim());
         this.router.navigate(['/reader', hash]);
     }

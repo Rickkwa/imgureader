@@ -1,7 +1,11 @@
 Test with ojwXr
-<label>Imgur Album: <input type="text" [(ngModel)]="albumSearch" (change)="albumSearchUpdate()" (keyup.enter)="albumSearchUpdate()" /></label>
-<!-- Imgur Album: <input type="text" [(ngModel)]="albumSearch" (change)="albumSearchUpdate()" /> -->
-<button (click)="prevPage()">Previous</button><button (click)="nextPage()">Next</button>
+<!-- <label>Imgur Album: <input type="text" [(ngModel)]="albumSearch" (change)="albumSearchUpdate()" (keyup.enter)="albumSearchUpdate()" /></label> -->
+<label>Imgur Album: <input type="text" [(ngModel)]="albumSearch" (keyup.enter)="albumSearchUpdate()" /></label>
+<button (click)="albumSearchUpdate()">Go</button>
+
+<div>
+    <button (click)="prevPage()">Previous</button><button (click)="nextPage()">Next</button>
+</div>
 
 <h3 *ngIf="currentChapter">{{ currentChapter.getTitle() }}</h3>
 
