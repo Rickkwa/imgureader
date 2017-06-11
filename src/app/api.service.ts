@@ -26,7 +26,7 @@ export class ApiService {
             .then(response => this.parseChapter(response.json().data))
             .catch(this.handleHttpError);
     }
-    
+
     handleHttpError(error: any): Promise<any> {
         console.error("Error calling imgur api");
         return Promise.reject(error.message || error);
@@ -51,7 +51,7 @@ export class ApiService {
         for (let image of obj.images) {
             result.addPage(new Page(image.id, image.link, image.size, image.width, image.height));
         }
-        
+
         return result;
     }
 

@@ -7,7 +7,7 @@ Test with ojwXr
 
 <div class="reader-container">
     <div *ngIf="currentChapter">
-        Page 
+        Page
         <select id="page-selector" (change)="gotoPage($event.target.value)" [(ngModel)]="currentPageIndex">
             <option *ngFor="let i of currentChapter.getNumPages() | range" value="{{ i }}">
                 {{ i + 1 }}

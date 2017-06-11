@@ -19,34 +19,49 @@ export class ReaderComponent implements OnInit {
     currentPageIndex: number;
     pageImages: HTMLImageElement[];
 
+    albumHash: string;
+    pageIndex: number;
+
     constructor(
-        private apiService: ApiService, 
-        private route: ActivatedRoute, 
+        private apiService: ApiService,
+        private route: ActivatedRoute,
         private router: Router
     ) { }
 
     ngOnInit() {
-        // console.log("albumhash", this.route.snapshot.params['albumhash']);
-        // console.log("page", this.route.snapshot.params['pagenum']);
-
         this.route.params.subscribe((params) => {
-            this.onUrlChange(params["albumhash"], +params["pagenum"]);
+            if (params["albumhash"] && params["pagenum"])
+                this.onUrlChange(params["albumhash"], +params["pagenum"]);
         });
-        // this.router.navigate(["reader", "ojwXr", "page", 20]);
     }
 
     onUrlChange(albumHash: string, pageNum: number) {
-        // console.log(albumHash, pageNum);
+        // TODO: verify hash works?
+        // TODO/TOFIX: When gotoPage runs, it sets the current page and changes URL. Since URL changes, this function gets called
+        //             and it ends up calling gotoPage again. But since it goes to the same page, it won't run infinitely... but it
+        //             still ends up running twice which is redundant.
+
+        console.log(albumHash, pageNum);
+
+        this.albumHash = albumHash;
+        this.pageIndex = pageNum - 1;
+
+        if (!this.currentChapter) {
+            this.apiService.loadChapter(this.albumHash.trim()).then(chapter => {
+                this.currentPageIndex = 0;
+                this.currentChapter = chapter;
+                this.pageImages = new Array<HTMLImageElement>();
+                this.gotoPage(this.pageIndex);
+            });
+        }
+        else {
+            this.gotoPage(this.pageIndex);
+        }
     }
 
     albumSearchUpdate() {
-        this.apiService.loadChapter(this.albumSearch.trim()).then(chapter => {
-            // TODO: clear all DOM elements in .preload-images
-            this.currentPageIndex = 0;
-            this.currentChapter = chapter;
-            this.pageImages = new Array<HTMLImageElement>();
-            this.gotoPage(0);
-        });
+        let hash: string = this.apiService.getHash(this.albumSearch.trim());
+        this.router.navigate(['/reader', hash]);
     }
 
     nextPage(): void {
@@ -56,14 +71,17 @@ export class ReaderComponent implements OnInit {
 
         this.currentPageIndex += 1;
         this.gotoPage(this.currentPageIndex);
+        this.router.navigate(['/reader', this.albumHash, 'page', this.currentPageIndex + 1]);
     }
 
     prevPage(): void {
         if (this.currentPageIndex - 1 < 0)
             // TODO: Some user feedback that this is the first page
             return;
+
         this.currentPageIndex -= 1;
         this.gotoPage(this.currentPageIndex);
+        this.router.navigate(['/reader', this.albumHash, 'page', this.currentPageIndex + 1]);
     }
 
     getImage(src: string): HTMLImageElement {
@@ -73,11 +91,13 @@ export class ReaderComponent implements OnInit {
     }
 
     gotoPage(index: string | number): void {
+        console.log("Go to page: ", index);
         index = parseInt(index + "");
         if (index < 0 || index >= this.currentChapter.getNumPages())
             return;
         this.currentPageIndex = index;
         this.currentPage = this.currentChapter.getPage(this.currentPageIndex);
+        this.router.navigate(['/reader', this.albumHash, 'page', this.currentPageIndex + 1]);
 
         // Preload images for neighboring pages
         this.pageImages[index] = this.getImage(this.currentPage.getLink());
@@ -108,7 +128,7 @@ export class ReaderComponent implements OnInit {
     }
 
     scrollToTarget(targetY: number, scrollDuration: number): void {
-        let distToGo; 
+        let distToGo;
         let direction = window.scrollY > targetY ? -1 : 1; // negative means scroll up, positive means scroll down
         let intervalLength = 20;
 
