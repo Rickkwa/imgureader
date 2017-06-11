@@ -1,7 +1,9 @@
 .image-container {
     text-align: center;
+    width: 100%;
 }
 
 .image-container img {
     cursor: pointer;
+    max-width: 100%;
 }
