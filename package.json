@@ -6,6 +6,8 @@
         "ng": "ng",
         "start": "ng serve --port 80 --host 0.0.0.0",
         "build": "ng build",
+        "build_prod": "ng build --prod",
+        "build_github": "ng build --prod --base-href=/demo/imgureader/",
         "test": "ng test",
         "lint": "ng lint",
         "e2e": "ng e2e"
