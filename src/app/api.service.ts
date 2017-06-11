@@ -38,7 +38,7 @@ export class ApiService {
     }
 
     getHash(s: string): string {
-        s = s.trim().replace(new RegExp("^http(s)?://(www\.)?imgur\.com/a/", "g"), "");
+        s = s.trim().replace(new RegExp("^http(s)?://(www\.)?imgur\.com/(a|gallery)/", "g"), "");
         return s;
     }
 

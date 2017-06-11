@@ -41,8 +41,6 @@ export class ReaderComponent implements OnInit {
         //             and it ends up calling gotoPage again. But since it goes to the same page, it won't run infinitely... but it
         //             still ends up running twice which is redundant.
 
-        console.log(albumHash, pageNum);
-
         this.albumHash = albumHash;
         this.pageIndex = pageNum - 1;
 
@@ -91,7 +89,6 @@ export class ReaderComponent implements OnInit {
     }
 
     gotoPage(index: string | number): void {
-        console.log("Go to page: ", index);
         index = parseInt(index + "");
         if (index < 0 || index >= this.currentChapter.getNumPages())
             return;
