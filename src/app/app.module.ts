@@ -6,6 +6,7 @@ import { ApiService } from './api.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { ReaderComponent } from './reader.component';
+import { LandingComponent } from './landing.component';
 import { AppComponent } from './app.component';
 import { RangePipe } from './range.pipe';
 
@@ -14,6 +15,7 @@ import { RangePipe } from './range.pipe';
     declarations: [
         AppComponent,
         ReaderComponent,
+        LandingComponent,
         RangePipe
     ],
     imports: [

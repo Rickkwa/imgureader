@@ -1,0 +1,30 @@
+.search-box {
+    display: inline-block;
+}
+
+.search-box input[type="text"] {
+    width: 200px;
+    border-radius: 3px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 24px;
+    padding: 5px;
+    outline: none;
+    border: 1px solid grey;
+
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+
+    transition: 0.25s;
+}
+
+.search-box input[type="text"]:focus {
+    box-shadow: inset 0 0px 3px 0px #141518;
+}
+
+.search-btn {
+    vertical-align: top;
+    height: 50px;
+    width: 75px;
+}

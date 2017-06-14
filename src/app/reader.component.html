@@ -1,6 +1,4 @@
-Test with ojwXr
-<!-- <label>Imgur Album: <input type="text" [(ngModel)]="albumSearch" (change)="albumSearchUpdate()" (keyup.enter)="albumSearchUpdate()" /></label> -->
-<label>Imgur Album: <input type="text" [(ngModel)]="albumSearch" (keyup.enter)="albumSearchUpdate()" /></label>
+<label>View another album: <input type="text" [(ngModel)]="albumSearch" (keyup.enter)="albumSearchUpdate()" /></label>
 <button (click)="albumSearchUpdate()">Go</button>
 
 <h3 *ngIf="currentChapter">{{ currentChapter.getTitle() }}</h3>
