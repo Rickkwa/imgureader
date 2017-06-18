@@ -47,7 +47,7 @@ export class ApiService {
         let date: Date = new Date(0);
         date.setUTCSeconds(obj.datetime);
 
-        let result: Chapter = new Chapter(obj.title, obj.link, obj.nsfw, obj.images_count, date);
+        let result: Chapter = new Chapter(obj.id, obj.title, obj.link, obj.nsfw, obj.images_count, date);
         for (let image of obj.images) {
             result.addPage(new Page(image.id, image.link, image.size, image.width, image.height));
         }

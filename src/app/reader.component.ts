@@ -3,12 +3,14 @@ import { NgModule } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { ApiService } from './api.service';
+import { ChapterHistoryService } from './chapter-history.service';
+
 import { Chapter } from './chapter';
 import { Page } from './page';
 
 @Component({
     templateUrl: './reader.component.html',
-    providers: [ ApiService ],
+    providers: [ ApiService, ChapterHistoryService ],
     styleUrls: ['./reader.component.css'],
     host: { "(window:keydown)": "keyDownHandler($event)" }
 })
@@ -22,6 +24,7 @@ export class ReaderComponent implements OnInit {
 
     constructor(
         private apiService: ApiService,
+        private historyService: ChapterHistoryService,
         private route: ActivatedRoute,
         private router: Router
     ) { }
@@ -45,6 +48,7 @@ export class ReaderComponent implements OnInit {
         if (!this.currentChapter || newChapter) {
             this.apiService.loadChapter(this.albumHash.trim()).then(chapter => {
                 this.currentChapter = chapter;
+                this.historyService.add(chapter);
                 this.pageImages = new Array<HTMLImageElement>();
                 this.gotoPage(pageNum - 1);
             });

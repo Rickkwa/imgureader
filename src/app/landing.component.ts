@@ -3,10 +3,11 @@ import { NgModule } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { ApiService } from './api.service';
+import { ChapterHistoryService } from './chapter-history.service';
 
 @Component({
     templateUrl: './landing.component.html',
-    providers: [ ApiService ],
+    providers: [ ApiService, ChapterHistoryService ],
     styleUrls: ['./landing.component.css']
 })
 export class LandingComponent {
@@ -14,6 +15,7 @@ export class LandingComponent {
 
     constructor(
         private apiService: ApiService,
+        private historyService: ChapterHistoryService,
         private router: Router
     ) { }
 

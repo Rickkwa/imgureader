@@ -2,7 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+
 import { ApiService } from './api.service';
+import { ChapterHistoryService } from './chapter-history.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { ReaderComponent } from './reader.component';

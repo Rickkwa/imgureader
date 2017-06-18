@@ -2,6 +2,7 @@ import { Page } from './page';
 
 // An ordered list of Pages with some meta data
 export class Chapter {
+    hash: string;
     title: string;
     link: string;
     nsfw: boolean;
@@ -9,7 +10,8 @@ export class Chapter {
     datetime: Date;
     pages: Page[];
 
-    constructor(title, link, nsfw, imagesCount, datetime) {
+    constructor(hash, title, link, nsfw, imagesCount, datetime) {
+        this.hash = hash;
         this.title = title;
         this.link = link;
         this.nsfw = nsfw;
