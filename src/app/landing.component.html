@@ -8,7 +8,11 @@
 <div>
     <h2>Recently Viewed</h2>
     <div *ngIf="historyService.getSize() > 0; else noHistory">
-        <div *ngFor="let ch of historyService.getHistory()"><a [routerLink]="['reader', ch.hash]">{{ ch.title ? ch.title : "&lt;untitled&gt;" }}</a></div>
+        <ol>
+            <li *ngFor="let che of historyService.getHistory()">
+                ({{ che.dateAccessed | date:'y-MM-dd hh:mm a' }}) <a [routerLink]="['reader', che.chapter.hash]">{{ che.chapter.title ? che.chapter.title : "&lt;untitled&gt;" }}</a>
+            </li>
+        </ol>
     </div>
     <ng-template #noHistory>
         <div>no history</div>

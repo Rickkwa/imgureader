@@ -4,7 +4,7 @@ import { Chapter } from './chapter';
 
 @Injectable()
 export class ChapterHistoryService {
-    private history: Chapter[]; // front of array is most recent
+    private history: ChapterHistoryEntry[]; // front of array is most recent
     private readonly maxSize: number = 10;
 
     constructor() {
@@ -12,7 +12,7 @@ export class ChapterHistoryService {
             this.history = JSON.parse(localStorage.getItem("imgureaderHistory"));
         }
         else {
-            this.history = new Array<Chapter>();
+            this.history = new Array<ChapterHistoryEntry>();
             localStorage.setItem("imgureaderHistory", JSON.stringify([]));
         }
     }
@@ -27,21 +27,21 @@ export class ChapterHistoryService {
             }
         }
 
-        this.history.unshift(ch);
+        this.history.unshift(new ChapterHistoryEntry(ch, new Date()));
         localStorage.setItem("imgureaderHistory", JSON.stringify(this.history));
     }
 
-    getHistory(): Chapter[] {
+    getHistory(): ChapterHistoryEntry[] {
         return JSON.parse(JSON.stringify(this.history));
     }
 
-    getFromMostRecent(index: number): Chapter {
+    getFromMostRecent(index: number): ChapterHistoryEntry {
         if (index < 0 || index >= this.getSize())
             return null;
         return this.history[index];
     }
 
-    getFromLeastRecent(index: number): Chapter {
+    getFromLeastRecent(index: number): ChapterHistoryEntry {
         if (index < 0 || index >= this.getSize())
             return null;
         return this.history[this.getSize() - 1 - index];
@@ -54,9 +54,19 @@ export class ChapterHistoryService {
     indexOf(hash: string): number {
         // Return an index from most recent (ie 0 is most recent). Return -1 if the Chapter is not in the history.
         for (let i = 0; i < this.getSize(); i++) {
-            if (this.getFromMostRecent(i).hash == hash)
+            if (this.getFromMostRecent(i).chapter.hash == hash)
                 return i;
         }
         return -1;
+    }
+}
+
+class ChapterHistoryEntry {
+    chapter: Chapter;
+    dateAccessed: Date;
+
+    constructor(chapter: Chapter, date: Date) {
+        this.chapter = chapter;
+        this.dateAccessed = date;
     }
 }

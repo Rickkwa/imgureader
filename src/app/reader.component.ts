@@ -42,10 +42,10 @@ export class ReaderComponent implements OnInit {
         //             and it ends up calling gotoPage again. But since it goes to the same page, it won't run infinitely... but it
         //             still ends up running twice which is redundant.
 
-        let newChapter: boolean = this.albumHash != albumHash;
+        let isNewChapter: boolean = this.albumHash != albumHash;
         this.albumHash = albumHash;
 
-        if (!this.currentChapter || newChapter) {
+        if (!this.currentChapter || isNewChapter) {
             this.apiService.loadChapter(this.albumHash.trim()).then(chapter => {
                 this.currentChapter = chapter;
                 this.historyService.add(chapter);
