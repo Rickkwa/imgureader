@@ -15,7 +15,7 @@ export class LandingComponent {
 
     constructor(
         private apiService: ApiService,
-        private historyService: ChapterHistoryService,
+        public historyService: ChapterHistoryService,
         private router: Router
     ) { }
 
