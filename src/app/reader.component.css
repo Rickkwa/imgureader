@@ -7,3 +7,7 @@
     cursor: pointer;
     max-width: 100%;
 }
+
+h3.title {
+    height: 1.1em;
+}

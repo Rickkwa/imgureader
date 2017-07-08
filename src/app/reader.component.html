@@ -1,7 +1,7 @@
 <label>View another album: <input type="text" [(ngModel)]="albumSearch" (keyup.enter)="albumSearchUpdate()" /></label>
 <button (click)="albumSearchUpdate()">Go</button>
 
-<h3 *ngIf="currentChapter">{{ currentChapter.getTitle() }}</h3>
+<h3 class="title">{{ currentChapter ? currentChapter.getTitle() : "" }}</h3>
 
 <div class="reader-container">
     <div *ngIf="currentChapter">

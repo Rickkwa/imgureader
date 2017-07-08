@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { NgModule } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -14,7 +14,7 @@ import { Page } from './page';
     styleUrls: ['./reader.component.css'],
     host: { "(window:keydown)": "keyDownHandler($event)" }
 })
-export class ReaderComponent implements OnInit {
+export class ReaderComponent implements AfterViewInit {
     albumSearch: string = "";
     albumHash: string = "";
     currentChapter: Chapter;
@@ -29,7 +29,7 @@ export class ReaderComponent implements OnInit {
         private router: Router
     ) { }
 
-    ngOnInit() {
+    ngAfterViewInit() {
         this.route.params.subscribe((params) => {
             if (params["albumhash"] && params["pagenum"])
                 this.onUrlChange(params["albumhash"], +params["pagenum"]);
@@ -50,7 +50,7 @@ export class ReaderComponent implements OnInit {
                 this.currentChapter = chapter;
                 this.historyService.add(chapter);
                 this.pageImages = new Array<HTMLImageElement>();
-                this.gotoPage(pageNum - 1);
+                this.gotoPage(pageNum - 1, document.getElementsByClassName("title")[0]);
             });
         }
         else {
@@ -91,7 +91,7 @@ export class ReaderComponent implements OnInit {
         return result;
     }
 
-    gotoPage(index: string | number): void {
+    gotoPage(index: string | number, scrollTarget = document.getElementsByClassName("reader-container")[0]): void {
         index = parseInt(index + "");
         if (index < 0 || index >= this.currentChapter.getNumPages())
             return;
@@ -106,12 +106,9 @@ export class ReaderComponent implements OnInit {
         if (index + 1 < this.currentChapter.getNumPages())
             this.pageImages[index + 1] = this.getImage(this.currentChapter.getPage(index + 1).getLink());
 
-        this.scrollReset();
+        this.scrollToTarget((<HTMLElement> scrollTarget).offsetTop, 150);
     }
 
-    scrollReset(): void {
-        this.scrollToTarget((<HTMLElement> document.getElementsByClassName("reader-container")[0]).offsetTop, 150);
-    }
 
     keyDownHandler(e: KeyboardEvent): void {
         if ("value" in document.activeElement) {
@@ -128,19 +125,18 @@ export class ReaderComponent implements OnInit {
     }
 
     scrollToTarget(targetY: number, scrollDuration: number): void {
-        let distToGo;
-        let direction = window.scrollY > targetY ? -1 : 1; // negative means scroll up, positive means scroll down
         let intervalLength = 20;
 
         let stepsLeft = scrollDuration / intervalLength;
         let scrollInterval = setInterval(() => {
-            distToGo = Math.abs(window.scrollY - targetY);
-            if (distToGo <= 0) {
+            let distToGo = Math.abs(window.scrollY - targetY);
+            if (distToGo <= 0 || stepsLeft <= 0) {
                 clearInterval(scrollInterval);
+                window.scrollTo(0, targetY);
                 return;
             }
             let step = Math.min(distToGo, distToGo / stepsLeft);
-            window.scrollBy(0, direction * step);
+            window.scrollBy(0, (window.scrollY > targetY ? -1 : 1) * step);
             stepsLeft -= 1;
         }, intervalLength);
     }
