@@ -1,3 +1,3 @@
 # Imgureader
 
-Demo: https://rickykwan.ca/demo/imgureader
+Demo: https://imgureader.rickykwan.ca
