@@ -73,7 +73,6 @@ export class ReaderComponent implements OnInit {
             return;
 
         this.currentPageIndex += 1;
-        this.gotoPage(this.currentPageIndex);
         this.router.navigate(['/reader', this.albumHash, 'page', this.currentPageIndex + 1]);
     }
 
@@ -83,7 +82,6 @@ export class ReaderComponent implements OnInit {
             return;
 
         this.currentPageIndex -= 1;
-        this.gotoPage(this.currentPageIndex);
         this.router.navigate(['/reader', this.albumHash, 'page', this.currentPageIndex + 1]);
     }
 
