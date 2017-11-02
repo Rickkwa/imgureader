@@ -1,0 +1,10 @@
+
+build_app:
+  stage: build
+  image: node:6.11.5
+  artifacts:
+    paths:
+      - dist
+  script:
+    - npm install
+    - npm run build_prod
