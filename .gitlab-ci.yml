@@ -10,8 +10,7 @@ build_app:
     - npm install
     - npm run build_prod
 
-
-deploy_pages:
+pages:
   stage: deploy
   script:
     - mv dist/ public/
