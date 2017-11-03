@@ -5,6 +5,18 @@ build_app:
   artifacts:
     paths:
       - dist
+    expire_in: 1 week
   script:
     - npm install
     - npm run build_prod
+
+
+deploy_pages:
+  stage: deploy
+  script:
+    - mv dist/ public/
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
