@@ -5,7 +5,7 @@ import { Chapter } from './chapter';
 @Injectable()
 export class ChapterHistoryService {
     private history: ChapterHistoryEntry[]; // front of array is most recent
-    private readonly maxSize: number = 10;
+    private readonly maxSize: number = 30;
 
     constructor() {
         if (localStorage.getItem("imgureaderHistory") != null) {
