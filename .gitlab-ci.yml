@@ -1,3 +1,15 @@
+stages:
+  - lint
+  - build
+  - deploy
+
+check_style:
+  stage: lint
+  image: node:6.11.5
+  script:
+    - npm install
+    - npm run lint
+  allow_failure: true
 
 build_app:
   stage: build
@@ -9,6 +21,8 @@ build_app:
   script:
     - npm install
     - npm run build_prod -- --base-href="/"
+  only:
+    - master
 
 pages:
   stage: deploy
