@@ -21,8 +21,6 @@ build_app:
   script:
     - npm install
     - npm run build_prod -- --base-href="/"
-  only:
-    - master
 
 pages:
   stage: deploy
