@@ -11,5 +11,5 @@ import { Page } from "./page";
     styleUrls: ["./app.component.css"],
 })
 export class AppComponent {
-    title: string = "imgureader";
+    title = "imgureader";
 }

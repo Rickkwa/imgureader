@@ -11,7 +11,7 @@ import { ChapterHistoryService } from "./chapter-history.service";
     styleUrls: ["./landing.component.css"]
 })
 export class LandingComponent {
-    albumSearch: string = "";
+    albumSearch = "";
 
     constructor(
         private apiService: ApiService,
@@ -20,7 +20,7 @@ export class LandingComponent {
     ) { }
 
     albumSearchUpdate(): void {
-        let hash: string = this.apiService.getHash(this.albumSearch);
+        const hash: string = this.apiService.getHash(this.albumSearch);
         this.router.navigate(["/reader", hash]);
     }
 }

@@ -15,8 +15,8 @@ import { Page } from "./page";
     host: { "(window:keydown)": "keyDownHandler($event)" }
 })
 export class ReaderComponent implements AfterViewInit {
-    albumSearch: string = "";
-    albumHash: string = "";
+    albumSearch = "";
+    albumHash = "";
     currentChapter: Chapter;
     currentPage: Page;
     currentPageIndex: number;
@@ -42,28 +42,26 @@ export class ReaderComponent implements AfterViewInit {
         //             and it ends up calling gotoPage again. But since it goes to the same page, it won't run infinitely... but it
         //             still ends up running twice which is redundant.
 
-        let isNewChapter: boolean = this.albumHash != albumHash;
+        const isNewChapter: boolean = this.albumHash !== albumHash;
         this.albumHash = albumHash;
 
-        if (!this.currentChapter || isNewChapter) {
+        if (!this.currentChapter || isNewChapter)
             this.apiService.loadChapter(this.albumHash.trim()).then(chapter => {
                 this.currentChapter = chapter;
                 this.historyService.add(chapter);
                 this.pageImages = new Array<HTMLImageElement>();
                 this.gotoPage(pageNum - 1, document.getElementsByClassName("title")[0]);
             });
-        }
-        else {
+        else
             this.gotoPage(pageNum - 1);
-        }
     }
 
     albumSearchUpdate() {
-        if (this.albumSearch.trim() == "") {
+        if (this.albumSearch.trim() === "") {
             this.router.navigate(["/"]);
             return;
         }
-        let hash: string = this.apiService.getHash(this.albumSearch.trim());
+        const hash: string = this.apiService.getHash(this.albumSearch.trim());
         this.router.navigate(["/reader", hash]);
     }
 
@@ -86,13 +84,13 @@ export class ReaderComponent implements AfterViewInit {
     }
 
     getImage(src: string): HTMLImageElement {
-        let result = new Image();
+        const result = new Image();
         result.src = src;
         return result;
     }
 
     gotoPage(index: string | number, scrollTarget = document.getElementsByClassName("reader-container")[0]): void {
-        index = parseInt(index + "");
+        index = parseInt(index + "", 10);
         if (index < 0 || index >= this.currentChapter.getNumPages())
             return;
         this.currentPageIndex = index;
@@ -111,31 +109,31 @@ export class ReaderComponent implements AfterViewInit {
 
 
     keyDownHandler(e: KeyboardEvent): void {
-        if ("value" in document.activeElement) {
+        if ("value" in document.activeElement)
             return;
-        }
-        if (e.keyCode == 37 || e.keyCode == 65) // left arrow (37) or A (65)
+
+        if (e.keyCode === 37 || e.keyCode === 65) // left arrow (37) or A (65)
             this.prevPage();
-        else if (e.keyCode == 39 || e.keyCode == 68) // right arrow (39) or D (68)
+        else if (e.keyCode === 39 || e.keyCode === 68) // right arrow (39) or D (68)
             this.nextPage();
-        else if (e.keyCode == 83) // S (83)
+        else if (e.keyCode === 83) // S (83)
             window.scrollBy(0, 40);
-        else if (e.keyCode == 87) // W (87)
+        else if (e.keyCode === 87) // W (87)
             window.scrollBy(0, -40);
     }
 
     scrollToTarget(targetY: number, scrollDuration: number): void {
-        let intervalLength = 20;
+        const intervalLength = 20;
 
         let stepsLeft = scrollDuration / intervalLength;
-        let scrollInterval = setInterval(() => {
-            let distToGo = Math.abs(window.scrollY - targetY);
+        const scrollInterval = setInterval(() => {
+            const distToGo = Math.abs(window.scrollY - targetY);
             if (distToGo <= 0 || stepsLeft <= 0) {
                 clearInterval(scrollInterval);
                 window.scrollTo(0, targetY);
                 return;
             }
-            let step = Math.min(distToGo, distToGo / stepsLeft);
+            const step = Math.min(distToGo, distToGo / stepsLeft);
             window.scrollBy(0, (window.scrollY > targetY ? -1 : 1) * step);
             stepsLeft -= 1;
         }, intervalLength);

@@ -17,7 +17,7 @@ export class ApiService {
     }
 
     callApi(hash: string): Promise<Chapter> {
-        let headers = new Headers({
+        const headers = new Headers({
             "authorization": "Client-ID " + this.clientId
         });
 
@@ -33,7 +33,7 @@ export class ApiService {
     }
 
     loadChapter(value: string): Promise<Chapter> {
-        let hash: string = this.getHash(value);
+        const hash: string = this.getHash(value);
         return this.callApi(hash);
     }
 
@@ -44,13 +44,12 @@ export class ApiService {
 
     parseChapter(obj: any): Chapter {
         // Parse the json returned from the API to return a Chapter object.
-        let date: Date = new Date(0);
+        const date: Date = new Date(0);
         date.setUTCSeconds(obj.datetime);
 
-        let result: Chapter = new Chapter(obj.id, obj.title, obj.link, obj.nsfw, obj.images_count, date);
-        for (let image of obj.images) {
+        const result: Chapter = new Chapter(obj.id, obj.title, obj.link, obj.nsfw, obj.images_count, date);
+        for (const image of obj.images)
             result.addPage(new Page(image.id, image.link, image.size, image.width, image.height));
-        }
 
         return result;
     }

@@ -8,9 +8,8 @@ export class ChapterHistoryService {
     private readonly maxSize: number = 30;
 
     constructor() {
-        if (localStorage.getItem("imgureaderHistory") != null) {
+        if (localStorage.getItem("imgureaderHistory") != null)
             this.history = JSON.parse(localStorage.getItem("imgureaderHistory"));
-        }
         else {
             this.history = new Array<ChapterHistoryEntry>();
             localStorage.setItem("imgureaderHistory", JSON.stringify([]));
@@ -18,14 +17,12 @@ export class ChapterHistoryService {
     }
 
     add(ch: Chapter): void {
-        let index: number = this.indexOf(ch.hash);
-        if (index != -1)
+        const index: number = this.indexOf(ch.hash);
+        if (index !== -1)
             this.history.splice(index, 1);
-        else {
-            while (this.getSize() >= this.maxSize) {
+        else
+            while (this.getSize() >= this.maxSize)
                 this.history.pop()
-            }
-        }
 
         this.history.unshift(new ChapterHistoryEntry(ch, new Date()));
         localStorage.setItem("imgureaderHistory", JSON.stringify(this.history));
@@ -53,10 +50,9 @@ export class ChapterHistoryService {
 
     indexOf(hash: string): number {
         // Return an index from most recent (ie 0 is most recent). Return -1 if the Chapter is not in the history.
-        for (let i = 0; i < this.getSize(); i++) {
-            if (this.getFromMostRecent(i).chapter.hash == hash)
+        for (let i = 0; i < this.getSize(); i++)
+            if (this.getFromMostRecent(i).chapter.hash === hash)
                 return i;
-        }
         return -1;
     }
 }
