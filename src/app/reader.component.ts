@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from "@angular/core";
+import { Component, HostListener, AfterViewInit } from "@angular/core";
 import { NgModule } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 
@@ -11,8 +11,7 @@ import { Page } from "./page";
 @Component({
     templateUrl: "./reader.component.html",
     providers: [ ApiService, ChapterHistoryService ],
-    styleUrls: ["./reader.component.css"],
-    host: { "(window:keydown)": "keyDownHandler($event)" }
+    styleUrls: ["./reader.component.css"]
 })
 export class ReaderComponent implements AfterViewInit {
     albumSearch = "";
@@ -107,8 +106,7 @@ export class ReaderComponent implements AfterViewInit {
         this.scrollToTarget((<HTMLElement> scrollTarget).offsetTop, 150);
     }
 
-
-    keyDownHandler(e: KeyboardEvent): void {
+    @HostListener("window:keydown") keyDownHandler(e: KeyboardEvent): void {
         if ("value" in document.activeElement)
             return;
 
