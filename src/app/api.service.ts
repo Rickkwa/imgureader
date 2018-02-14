@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
-import 'rxjs/add/operator/toPromise';
-import { environment } from '../environments/environment';
+import { Injectable } from "@angular/core";
+import { Http, Headers } from "@angular/http";
+import "rxjs/add/operator/toPromise";
+import { environment } from "../environments/environment";
 
-import { Chapter } from './chapter';
-import { Page } from './page';
+import { Chapter } from "./chapter";
+import { Page } from "./page";
 
 @Injectable()
 export class ApiService {
@@ -12,7 +12,7 @@ export class ApiService {
     private baseUrl: string;
 
     constructor(private http: Http) {
-        this.baseUrl = 'https://api.imgur.com/3/album/';
+        this.baseUrl = "https://api.imgur.com/3/album/";
         this.clientId = environment.clientId;
     }
 

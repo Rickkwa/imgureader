@@ -1,4 +1,4 @@
-import { Page } from './page';
+import { Page } from "./page";
 
 // An ordered list of Pages with some meta data
 export class Chapter {

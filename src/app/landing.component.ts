@@ -1,14 +1,14 @@
-import { Component } from '@angular/core';
-import { NgModule } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from "@angular/core";
+import { NgModule } from "@angular/core";
+import { Router } from "@angular/router";
 
-import { ApiService } from './api.service';
-import { ChapterHistoryService } from './chapter-history.service';
+import { ApiService } from "./api.service";
+import { ChapterHistoryService } from "./chapter-history.service";
 
 @Component({
-    templateUrl: './landing.component.html',
+    templateUrl: "./landing.component.html",
     providers: [ ApiService, ChapterHistoryService ],
-    styleUrls: ['./landing.component.css']
+    styleUrls: ["./landing.component.css"]
 })
 export class LandingComponent {
     albumSearch: string = "";

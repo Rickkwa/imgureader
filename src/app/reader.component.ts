@@ -1,17 +1,17 @@
-import { Component, AfterViewInit } from '@angular/core';
-import { NgModule } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, AfterViewInit } from "@angular/core";
+import { NgModule } from "@angular/core";
+import { Router, ActivatedRoute } from "@angular/router";
 
-import { ApiService } from './api.service';
-import { ChapterHistoryService } from './chapter-history.service';
+import { ApiService } from "./api.service";
+import { ChapterHistoryService } from "./chapter-history.service";
 
-import { Chapter } from './chapter';
-import { Page } from './page';
+import { Chapter } from "./chapter";
+import { Page } from "./page";
 
 @Component({
-    templateUrl: './reader.component.html',
+    templateUrl: "./reader.component.html",
     providers: [ ApiService, ChapterHistoryService ],
-    styleUrls: ['./reader.component.css'],
+    styleUrls: ["./reader.component.css"],
     host: { "(window:keydown)": "keyDownHandler($event)" }
 })
 export class ReaderComponent implements AfterViewInit {
@@ -60,11 +60,11 @@ export class ReaderComponent implements AfterViewInit {
 
     albumSearchUpdate() {
         if (this.albumSearch.trim() == "") {
-            this.router.navigate(['/']);
+            this.router.navigate(["/"]);
             return;
         }
         let hash: string = this.apiService.getHash(this.albumSearch.trim());
-        this.router.navigate(['/reader', hash]);
+        this.router.navigate(["/reader", hash]);
     }
 
     nextPage(): void {
@@ -73,7 +73,7 @@ export class ReaderComponent implements AfterViewInit {
             return;
 
         this.currentPageIndex += 1;
-        this.router.navigate(['/reader', this.albumHash, 'page', this.currentPageIndex + 1]);
+        this.router.navigate(["/reader", this.albumHash, "page", this.currentPageIndex + 1]);
     }
 
     prevPage(): void {
@@ -82,7 +82,7 @@ export class ReaderComponent implements AfterViewInit {
             return;
 
         this.currentPageIndex -= 1;
-        this.router.navigate(['/reader', this.albumHash, 'page', this.currentPageIndex + 1]);
+        this.router.navigate(["/reader", this.albumHash, "page", this.currentPageIndex + 1]);
     }
 
     getImage(src: string): HTMLImageElement {
@@ -97,7 +97,7 @@ export class ReaderComponent implements AfterViewInit {
             return;
         this.currentPageIndex = index;
         this.currentPage = this.currentChapter.getPage(this.currentPageIndex);
-        this.router.navigate(['/reader', this.albumHash, 'page', this.currentPageIndex + 1]);
+        this.router.navigate(["/reader", this.albumHash, "page", this.currentPageIndex + 1]);
 
         // Preload images for neighboring pages
         this.pageImages[index] = this.getImage(this.currentPage.getLink());

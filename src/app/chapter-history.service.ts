@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 
-import { Chapter } from './chapter';
+import { Chapter } from "./chapter";
 
 @Injectable()
 export class ChapterHistoryService {
