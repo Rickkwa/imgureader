@@ -106,7 +106,7 @@ export class ReaderComponent implements AfterViewInit {
         this.scrollToTarget((<HTMLElement> scrollTarget).offsetTop, 150);
     }
 
-    @HostListener("window:keydown") keyDownHandler(e: KeyboardEvent): void {
+    @HostListener("window:keydown", ["$event"]) keyDownHandler(e: KeyboardEvent): void {
         if ("value" in document.activeElement)
             return;
 
